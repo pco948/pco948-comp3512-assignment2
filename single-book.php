@@ -1,83 +1,9 @@
 <?php
-   
-$data=startDatabase();
-    
-function startDatabase()
-{
-try
-{
-  $connstring="mysql:localhost=3306;dbname=book;charset=utf8";
-  
-  $user="root";
-  $password="";
+include './includes/booksFunctions.inc.php';
 
 
-  $pdo = new PDO ($connstring, $user, $password);
-  $pdo->setAttribute (PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  return $pdo;
-}
- 
-catch(PDOException $ex)
-{
-  die($ex->getMessage());
-}
- }
 
-function printBookDetails($data)
-{
- try 
- {
-$sql = "SELECT Title, BookID, ISBN10,ISBN13, CopyrightYear, SubcategoryName, Imprint,
-         Status,BindingType, TrimSize, PageCountsEditorialEst, Description 
-FROM Books
-INNER JOIN Subcategories ON Subcategories.SubcategoryID = Books.SubcategoryID
-INNER JOIN Imprints ON Imprints.ImprintID = Books.ImprintID
-INNER JOIN BindingTypes ON BindingTypes.BindingTypeID = Books.BindingTypeID
-INNER JOIN Statuses ON Statuses.StatusID = Books.ProductionStatusID
-WHERE Books.ISBN10 = :ISBN10
-ORDER BY Title LIMIT 20";
-$statement= $data->prepare($sql);
-$statement-> bindValue(":ISBN10", $_GET["isbn"]);
-$statement-> execute();
-
-if ($statement->rowCount() == 0) { echo "Did not understand request!... go back to book list";  }
-else{
-while ($row = $statement->fetch())
-{
-  echo "<div class='mdl-card__media mdl-cell mdl-cell--12-col-tablet'>";
-  echo  "<img class='article-image' src='book-images/medium/" . $row['ISBN10'] .".jpg' border='0' alt=''>";
-  echo "</div>";
-  echo "<div class='mdl-cell mdl-cell--8-col'>";
-  echo "<h2 class='mdl-card__title-text' > <strong>". $row['Title'] . "</strong></h2>";
-  echo "<div class='mdl-card__supporting-text padding-top'>";
-  echo  "<span>".$row['SubcategoryName'] . " (" . $row['CopyrightYear'] . ") </span>";
-  echo "<div class='mdl-card__supporting-text no-left-padding'>";
-    echo "<p> <strong>ISBN10: </strong>". $row['ISBN10'] . "</br>";
-    echo "<strong> ISBN13: </strong>" . $row['ISBN13'] . "</br>";
-    echo "<strong> Imprint: </strong>" . $row['Imprint']   . "</br>";
-    echo " <strong> Production Status: </strong>" . $row['Status'] . "</br>";
-    echo "<strong> Binding Type: </strong>" . $row['BindingType'] . "</br>";
-    echo "<strong> Trim Size: </strong>" . $row['TrimSize'] . "</br>";
-    echo "<strong> Page Count: </strong>" . $row['PageCountEditorialEst'] . "</br></p>";
-   
-     echo "</div>";
-     
-     echo "</div>";
-     echo "</div>";
-       echo "<div class= 'mdl-grid mdl-cell mdl-cell--12-col' >";
-     echo "<p><strong> Description: </strong>" . $row['Description'] . "</p>";
-     echo "</div>";
-   }
-}
-    $data = null;
-    }
- catch (PDOException $e)
- {
-   echo "Error";
-  }
-}
-
-function listUniversities($data) {
+function listUniversities() {
 try 
  {
 $sql = "SELECT Name, Universities.UniversityID
@@ -106,29 +32,19 @@ while ($row = $statement->fetch())
     
 
 
-function listAuthors($data) {
-    try 
- {
-$sql = "SELECT FirstName, LastName 
-       FROM Authors
-       JOIN BookAuthors ON BookAuthors.AuthorId = Authors.AuthorID
-       JOIN Books ON Books.BookID = BookAuthors.BookId 
-       WHERE Books.ISBN10 = :ISBN10
-       ORDER BY BookAuthors.Order";
+function listAuthors($isbnNumber) 
+{
 
-$statement= $data->prepare($sql);
-$statement-> bindValue(":ISBN10", $_GET["isbn"]);
-$statement-> execute();
-while ($row = $statement->fetch())
+global  $authorData;
+
+$result = $authorData->findBookDetailsByIsbn($isbnNumber);
+ 
+
+  foreach($result as $row) 
 {
   echo "<li>". $row['FirstName'] ." " .$row['LastName'] ."</li>";
    }
-    $data = null;
-    }
- catch (PDOException $e)
- {
-   echo "Error";
-  }
+   
 }
 ?>
      
@@ -166,7 +82,8 @@ while ($row = $statement->fetch())
       <div class="mdl-card__supporting-text">
       <div class="mdl-grid portfolio-max-width">
        <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
-        <?php   printBookDetails($data);  ?>
+        <?php   printBookDetails($_GET["isbn"]); 
+       ?>
         </div>
       
  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
@@ -180,7 +97,7 @@ while ($row = $statement->fetch())
    <span>List of authors for the book </span>
    </div>
   <div class="mdl-card__supporting-text">
-      <?php  listAuthors($data); ?>
+      <?php  listAuthors($_GET["isbn"]); ?>
   </div>
    </div>
    
@@ -195,7 +112,7 @@ while ($row = $statement->fetch())
    <span>List of universities that have adopted the book.</span>
      </div>
      <div class="mdl-card__supporting-text">
-      <?php listUniversities($data); ?>
+      <?php listUniversities(); ?>
    </div>
    </div>
      </div>

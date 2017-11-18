@@ -1,149 +1,4 @@
-<?php
-   
-$data=startDatabase();
-    
-function startDatabase()
-{
-try
-{
-  $connstring="mysql:localhost=3306;dbname=book;charset=utf8";
-  
-  $user="root";
-  $password="";
-
-
-  $pdo = new PDO ($connstring, $user, $password);
-  $pdo->setAttribute (PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  return $pdo;
-}
- 
-catch(PDOException $ex)
-{
-  die($ex->getMessage());
-}
- }
-
-
-function printAllBooks($data){
-   try {
-      $sql = "SELECT BookID, ISBN10, SUBSTRING(Title, 1, 57) as Title, CopyrightYear, SubcategoryName, Imprint 
-      FROM Books, Subcategories, Imprints
-      WHERE Imprints.ImprintID = Books.ImprintID
-      AND Subcategories.SubcategoryID = Books.SubcategoryID
-       ORDER BY Title LIMIT 20";
-      $result = $data->query($sql);
-      while ($row = $result->fetch()) {
-       echo "<tr>";
-       echo  "<td style='text-align: left'>" . "<img src='book-images/thumb/" . $row['ISBN10'] .".jpg'></td>";
-      echo  "<td style='text-align: left'>" . "<a href=" . 'single-book.php?isbn=' .   $row['ISBN10'] . ">".  $row['Title']  . "</a>" . "</td>";
-       echo  "<td style='text-align: left'>" . $row['CopyrightYear'] . "</td>";
-      echo  "<td style='text-align: left'>" . $row['SubcategoryName'] . "</td>";
-    echo  "<td style='text-align: left'>" . $row['Imprint']   . "</td>";
-    echo "</tr>"; 
-        }
-         $data = null;
-             }
-       catch (PDOException $e){
-         echo "Error";
-             }
-         }
-                               
-function printBooksSubcategoryFilter($data){
-      try {
-         $sql = "SELECT BookID, ISBN10, SUBSTRING(Title, 1, 57) Title, CopyrightYear, SubcategoryName, Imprint 
-         FROM Books, Subcategories, Imprints
-         WHERE Books.SubcategoryID = :SubcategoryID
-         AND Imprints.ImprintID = Books.ImprintID
-         AND Subcategories.SubcategoryID = Books.SubcategoryID
-        ORDER BY Title LIMIT 20";
-         $statement= $data->prepare($sql);
-          $statement-> bindValue(":SubcategoryID", $_GET["subcategory"]);
-          $statement->execute();
-            while ($row = $statement->fetch()) 
-            {
-            echo "<tr>";
-             echo  "<td style='text-align: left'>" . "<img src='book-images/thumb/" . $row['ISBN10'] .".jpg'></td>";
-              echo  "<td style='text-align: left'>" . "<a href=" . 'single-book.php?isbn=' .   $row['ISBN10'] . ">".  $row['Title']  . "</a>" . "</td>";
-              echo  "<td style='text-align: left'>" . $row['CopyrightYear'] . "</td>";
-               echo  "<td style='text-align: left'>" . $row['SubcategoryName'] . "</td>";
-                echo  "<td style='text-align: left'>" . $row['Imprint']   . "</td>";
-              echo "</tr>"; 
-               }
-                  $data = null;
-                   }
-                   catch (PDOException $e){
-                                    echo "Error";
-                                 }
-}
-
-                               
-function printBooksImprintFilter($data){
-        try {
-          $sql = "SELECT BookID, ISBN10, SUBSTRING(Title, 1, 57) as Title, CopyrightYear, SubcategoryName, Imprint 
-           FROM Books, Subcategories, Imprints
-            WHERE Books.ImprintID = :ImprintID
-             AND Imprints.ImprintID = Books.ImprintID
-             AND Subcategories.SubcategoryID = Books.SubcategoryID
-             ORDER BY Title LIMIT 20";
-          $statement= $data->prepare($sql);
-          $statement-> bindValue(":ImprintID", $_GET["imprint"]);
-         $statement->execute();
-         while ($row = $statement->fetch()) 
-         {
-         echo "<tr>";
-        echo  "<td style='text-align: left'>" . "<img src='book-images/thumb/" . $row['ISBN10'] .".jpg'></td>";
-        echo  "<td style='text-align: left'>" . "<a href=" . 'single-book.php?isbn=' . $row['ISBN10'] . ">".  $row['Title']  . "</a>" . "</td>";
-        echo  "<td style='text-align: left'>" . $row['CopyrightYear'] . "</td>";
-         echo  "<td style='text-align: left'>" . $row['SubcategoryName'] . "</td>";
-        echo  "<td style='text-align: left'>" . $row['Imprint']   . "</td>";
-        echo "</tr>"; 
-            }
-            $data = null;
-     }
-         catch (PDOException $e){
-         echo "Error";
-         }
-}
-
-
-
-function printSubcategoryDropdown($data){
-        $sql = "SELECT SubcategoryID, SubcategoryName FROM Subcategories ORDER by SubcategoryName";
-        $result = $data->query($sql);
-        while ($row = $result->fetch()) {  
-         echo "<option value=" . $row['SubcategoryID'] . ">" . $row['SubcategoryName'] . "</option>";
-              }
-       $data = null;
-}
-
-function printImprintDropdown($data){
-     $sql = "SELECT ImprintID, Imprint FROM Imprints ORDER by Imprint";
-      $result = $data->query($sql);
-       while ($row = $result->fetch()) {
-          echo "<option value=" . $row['ImprintID'] . ">" . $row['Imprint'] . "</option>";
-                                 }
-                                 $data = null;
-}
-
-function printBookChecker($data) 
-{
-      if(isset($_GET["subcategory"]) || isset($_GET['imprint']))
-      {
-       if($_GET["subcategory"] == "all" || $_GET["imprint"] == "all" )  {   printAllBooks($data); }
-                       
-         else if(isset($_GET["subcategory"])) { printBooksSubcategoryFilter($data); }
-         
-          else if(isset($_GET["imprint"])){ printBooksImprintFilter($data);   }
-          
-            else if($_GET["subcategory"] == " " || $_GET["imprint"] == " " )  {echo "Try filtering by subcategory or imprints";}
-      }  
-      else { printAllBooks($data); }
-               
-}
-
-
-?>
-     
+<?php include './includes/booksFunctions.inc.php';?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -188,7 +43,7 @@ function printBookChecker($data)
          <select class="mdl-selectfield__select" id="subcategory" name="subcategory">
          <option value=""></option>
           <option value="all">All Subcategories </option>
-           <?php  printSubcategoryDropdown($data); ?> 
+           <?php   printSubcategoryDropdown($subcategoriesData); ?> 
            </select>
            <label class="mdl-selectfield__label" for="subcategory">Subcategories</label>
               </div>
@@ -203,7 +58,7 @@ function printBookChecker($data)
     <select class="mdl-selectfield__select" id="imprint" name="imprint">
    <option value=""></option>
     <option value="all">All Imprints </option>
-      <?php  printImprintDropdown($data);   ?> 
+      <?php printImprintDropdown($imprintsData); ?> 
       </select>
        <label class="mdl-selectfield__label" for="imprint">Imprints</label>
         </div>
@@ -224,7 +79,7 @@ function printBookChecker($data)
   </tr>
   </thead>
   <tbody>
-      <?php  printBookChecker($data);  ?>
+      <?php  printBookChecker($data); ?>
     </tbody>
     </table>
   </div>

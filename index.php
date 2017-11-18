@@ -21,62 +21,61 @@
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
             mdl-layout--fixed-header">
             
-    <?php include 'includes/header.inc.php'; ?>
-    <?php include 'includes/left-nav.inc.php'; ?>
-    
-    <main class="mdl-layout__content mdl-color--grey-50">
-       <div class="mdl-grid">
-        
-  <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
-  <div class="mdl-card__title mdl-card--expand" id="indeximage">
-    <img src="book-images/books.jpeg">
-  </div>
-  <div class="mdl-card__actions mdl-card--border">  
-   <span class="demo-card-image__filename">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href= "browse-books.php">
-      Browse Books
-    </a>
-  </div>
- </span>
-</div>
+<?php include 'includes/header.inc.php'; ?>
+<?php include 'includes/left-nav.inc.php'; ?>
 
-<div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
-  <div class="mdl-card__title mdl-card--expand" id="indeximage">
-    <img src="book-images/university.jpeg">
-  </div>
-  <div class="mdl-card__actions mdl-card--border">   <span class="demo-card-image__filename">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href = "browse-universities.php">
-      Browse Universities
-    </a>
-  </div>
- </span>
-</div>
-            
-<div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
-  <div class="mdl-card__title mdl-card--expand"id="indeximage">
-    <img src="book-images/employees.jpeg">
-  </div>
-  <div class="mdl-card__actions mdl-card--border">   <span class="demo-card-image__filename">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href ="browse-employees.php">
-      Browse Employees
-    </a>
-  </div>
- </span>
-</div>
-
-<div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
-  <div class="mdl-card__title mdl-card--expand"id="indeximage">
-    <img src="book-images/about.jpeg">
-  </div>
-  <div class="mdl-card__actions mdl-card--border">   <span class="demo-card-image__filename">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="aboutus.php">
-      About Us
-    </a>
-  </div>
- </span>
-</div>
+<main class="mdl-layout__content mdl-color--grey-50">
+  <div class="mdl-grid">
+    <div class="card-square mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+        <div class="school-card-square mdl-card__title mdl-card--expand mdl-color--grey-800" >
+          <h2 class="mdl-card__title-text">Browse Universities</h2>
         </div>
-    </main>    
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+          Browse various Universities to see their selection of books.
+        </div>
+        
+        <div class="mdl-card__actions mdl-card--border">
+          <a href="browse-universities.php" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Explore<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+        </div>
+      </div>
+    <div class="card-square mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+      <div class="books-card-square mdl-card__title mdl-card--expand mdl-color--blue-500">
+        <h2 class="mdl-card__title-text">Browse Books</h2>
+      </div>
+      <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+        Browse our complete selection of books.
+      </div>
+      
+      <div class="mdl-card__actions mdl-card--border">
+        <a href="browse-books.php" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Explore<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+      </div>
+    </div>
+    <div class="card-square mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+      <div class="employees-card-square mdl-card__title mdl-card--expand mdl-color--blue-grey-300">
+        <h2 class="mdl-card__title-text">Browse Employees</h2>
+      </div>
+      <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+        See through a list of our great staff.
+      </div>
+      
+      <div class="mdl-card__actions mdl-card--border">
+        <a href="browse-employees.php" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Explore<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+      </div>
+    </div>
+    <div class="card-square mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-colp">
+      <div class="about-card-square mdl-card__title mdl-card--expand mdl-color--red-200">
+        <h2 class="mdl-card__title-text">More About Us</h2>
+      </div>
+      <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+        Interested to see why we do what we do.
+      </div>
+      
+      <div class="mdl-card__actions mdl-card--border">
+        <a href="about-us.php" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Explore<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+      </div>
+    </div>
+  </div>
+</main>    
 </div>    
           
 </body>

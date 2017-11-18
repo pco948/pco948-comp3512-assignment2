@@ -5,10 +5,11 @@ function printUniversitiesList()
         $connection = getConnection();
         $sql        = "SELECT UniversityID, Name FROM Universities ORDER BY Name LIMIT 20 ";
         $statement  = DatabaseHelper::runQuery($connection, $sql);
-        
         while ($row = $statement->fetch()) {
             echo "<li>" . "<a href=" . 'browse-universities.php?university=' . $row['UniversityID'] . ">" . $row['Name'] . "</a>" . "</li>" . "<br/>";
         }
+        
+        
         $connection = null;
     }
     catch (PDOException $e) {

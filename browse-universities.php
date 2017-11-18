@@ -1,30 +1,27 @@
 <?php
-include('universities-config.inc.php');
+include('includes/db-config.inc.php');
 include('universities-functions.inc.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Browse Universities</title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
-<link rel='stylesheet prefetch' href='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.css'>
-    <link rel="stylesheet" href="css/styles.css">
-    
-    
-    <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
-       
-    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-      <script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
-<script src='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.js'></script>
-    
-    
+	<title>Browse Universities</title>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css" rel="stylesheet">
+	<link href='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.css' rel='stylesheet prefetch'>
+	<link href="css/styles.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js">
+	</script>
+	<script src="https://code.getmdl.io/1.1.3/material.min.js">
+	</script>
+	<script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'>
+	</script>
+	<script src='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.js'>
+	</script>
 </head>
 <body>
     
@@ -54,10 +51,11 @@ include 'includes/left-nav.inc.php';
         <select class="mdl-selectfield__select" id="state" name="states">
           <option value=""></option>
           <option value="remove">Remove </option>
-
+            
             <?php
-printFilter();
-?> 
+                printFilter();
+            ?> 
+
         </select>
         <label class="mdl-selectfield__label" for="state">State</label>
       </div>

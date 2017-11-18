@@ -20,8 +20,8 @@ class AuthorsGateway extends TableDataGateway {
   
   protected function getIsbnNumber(){
   return "Books.ISBN10";
-  
  }
+ 
 protected function getJoinedSelectStatements()
  {
  return"SELECT FirstName, LastName 
@@ -30,11 +30,12 @@ protected function getJoinedSelectStatements()
        JOIN Books ON Books.BookID = BookAuthors.BookId ";
  }
  
-public function findBookDetailsByIsbn($isbn)
+public function findBookAuthorDetailsByIsbn($isbn)
 {
  $sql = $this->getJoinedSelectStatements(). ' WHERE ' .
  $this->getIsbnNumber() . '=:ISBN10';
-
+ $sql.=' ORDER BY ' . $this->getOrderFields();
+ $sql .= " ASC";
  $statement = DatabaseHelper::runQuery($this->connection, $sql,
  Array(':ISBN10' => $isbn));
  return $statement->fetchAll();

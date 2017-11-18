@@ -32,7 +32,7 @@ class BooksGateway extends TableDataGateway {
 
 protected function getBookDetails()
 {
-return "SELECT Title, BookID, ISBN10,ISBN13, CopyrightYear, SubcategoryName, Imprint,
+return "SELECT Title, BookID, ISBN10,ISBN13, CopyrightYear, SubcategoryName, Subcategories.SubcategoryID, Imprint,Imprints.ImprintID,
          Status,BindingType, TrimSize, PageCountsEditorialEst, Description 
 FROM Books
 INNER JOIN Subcategories ON Subcategories.SubcategoryID = Books.SubcategoryID

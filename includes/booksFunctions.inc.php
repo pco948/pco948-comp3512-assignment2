@@ -5,10 +5,10 @@
  $subcategoriesData = new SubcategoriesGateway($connection);
  $imprintsData = new ImprintsGateway($connection);
  $authorData = new AuthorsGateway($connection);
+ $universityData = new UniversitiesGateway($connection);
 
-
+//Browse Books Page Functions
 function printAllBooks($data){
-   try {
       $result = $data->findAllLimitByTwenty();
 
       foreach($result as $row) {
@@ -19,11 +19,6 @@ function printAllBooks($data){
       echo  "<td style='text-align: left'>" . $row['SubcategoryName'] . "</td>";
     echo  "<td style='text-align: left'>" . $row['Imprint']   . "</td>";
     echo "</tr>"; 
-        }
-         $data = null;
-             }
-       catch (PDOException $e){
-         echo "Error";
              }
          }
                                
@@ -42,7 +37,6 @@ $result = $subcategoriesData->findByJoinStatements($subcategoriesIDNumber);
                echo  "<td style='text-align: left'>" . $row['SubcategoryName'] . "</td>";
                 echo  "<td style='text-align: left'>" . $row['Imprint']   . "</td>";
               echo "</tr>";  
-         
       }
 }
 
@@ -97,14 +91,12 @@ function printImprintDropdown($imprintsData){
                
 }
 
+//Single Books Page Functions
 function printBookDetails($isbnNumber)
 {
 
 global  $data;
-
 $result = $data->findBookDetailsByIsbn($isbnNumber);
- 
-
   foreach($result as $row) 
 {
   echo "<div class='mdl-card__media mdl-cell mdl-cell--12-col-tablet'>";
@@ -117,14 +109,13 @@ $result = $data->findBookDetailsByIsbn($isbnNumber);
   echo "<div class='mdl-card__supporting-text no-left-padding'>";
     echo "<p> <strong>ISBN10: </strong>". $row['ISBN10'] . "</br>";
     echo "<strong> ISBN13: </strong>" . $row['ISBN13'] . "</br>";
-    echo "<strong> Imprint: </strong>" . $row['Imprint']   . "</br>";
+    echo "<strong> Subcategory: </strong><a href=".'browse-books.php?subcategory='.$row['SubcategoryID'].">" .$row['SubcategoryName'] ."</a></br>";
+    echo "<strong> Imprint: </strong><a href=" .'browse-books.php?imprint='.$row['ImprintID'].">". $row['Imprint']   . "</a></br>";
     echo " <strong> Production Status: </strong>" . $row['Status'] . "</br>";
     echo "<strong> Binding Type: </strong>" . $row['BindingType'] . "</br>";
     echo "<strong> Trim Size: </strong>" . $row['TrimSize'] . "</br>";
     echo "<strong> Page Count: </strong>" . $row['PageCountEditorialEst'] . "</br></p>";
-   
      echo "</div>";
-     
      echo "</div>";
      echo "</div>";
        echo "<div class= 'mdl-grid mdl-cell mdl-cell--12-col' >";
@@ -133,5 +124,31 @@ $result = $data->findBookDetailsByIsbn($isbnNumber);
    }
 }
 
+function listAuthors($isbnNumber) 
+{
 
+global  $authorData;
+
+$result = $authorData->findBookAuthorDetailsByIsbn($isbnNumber);
+ 
+
+  foreach($result as $row) 
+{
+  echo "<li>". $row['FirstName'] ." " .$row['LastName'] ."</li>";
+   }
+}
+
+function listUniversities($isbnNumber) {
+global  $universityData;
+
+$result = $universityData-> findBookUniversityDetailsByIsbn($isbnNumber);
+
+  foreach($result as $row) 
+
+{
+   echo "<li>" . "<a href=" . 'browse-universities.php?university=' . $row['UniversityID'] . ">" . 
+                                $row['Name'] . "</a>" . "</li>" . "<br/>";
+   }
+   
+}
 ?>

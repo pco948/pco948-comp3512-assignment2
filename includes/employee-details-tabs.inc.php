@@ -20,7 +20,7 @@
       </tr>
       </thead>
          <tbody>
-           <?php outputEmployeeToDoList($_GET['employee']); ?>      
+           <?php outputEmployeeToDoList(); ?>      
           </tbody>
        </table>
  </div>
@@ -36,7 +36,7 @@
      </tr>
     </thead>
        <tbody>
-          <?php //outputEmployeeMessages(); ?>      
+          <?php outputEmployeeMessages(); ?>      
       </tbody>
        </table>
     </div>

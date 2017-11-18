@@ -73,7 +73,11 @@ main header h4 {
 #indeximage {
 	padding: 0px;
 }
-
+.mdl-card__title>img {
+	width: 100%;
+	height: 290px;
+	padding: 0px;
+}
 .demo-list-action {
 	width: 300px;
 }
@@ -89,52 +93,4 @@ main header h4 {
 #map {
 	height: 500px;
 	width: 100%;
-}
-
-.card-square.mdl-card {
-  width: 400px;
-  height: 400px;
-}
-.books-card-square.mdl-card__title {
-  color: #fff;
-  background: url('../images/bookshelf-256.png') bottom right 15% no-repeat;
-}
-
-.school-card-square.mdl-card__title {
-  color: #fff;
-  background: url('../images/stack-256.png') bottom right 15% no-repeat;
-}
-.employees-card-square.mdl-card__title {
-  color: #fff;
-  background: url('../images/profile-256.png') bottom right 15% no-repeat;
-}
-.about-card-square.mdl-card__title {
-  color: #fff;
-  background: url('../images/news-256.png') bottom right 15% no-repeat;
-}
-
-/*
-.mdl-card__title>img {
-	width: 100%;
-	height: 290px;
-	padding: 0px;
-}*/
-
-.mdl-layout_login_login {
-	padding-top: 50%;
-	align-items: center;
-  justify-content: center;
-}
-.mdl-layout__content_login {
-	padding: 15%;
-	flex: none;
-}
-.mdl-grid.center-items {
-  justify-content: center;
-}
-#loginscreen{
-	background-image: url("../images/loginscreen.png");
-}
-#error{
-	color:red;
 }

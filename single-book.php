@@ -3,49 +3,6 @@ include './includes/booksFunctions.inc.php';
 
 
 
-function listUniversities() {
-try 
- {
-$sql = "SELECT Name, Universities.UniversityID
-       FROM Universities
-       JOIN Adoptions ON Adoptions.UniversityID = Universities.UniversityID
-       JOIN AdoptionBooks ON AdoptionBooks.AdoptionID = Adoptions.AdoptionID 
-       JOIN Books ON Books.BookID = AdoptionBooks.BookID
-       WHERE Books.ISBN10 = :ISBN10
-       ORDER BY Universities.Name ASC";
-
-$statement= $data->prepare($sql);
-$statement-> bindValue(":ISBN10", $_GET["isbn"]);
-$statement-> execute();
-while ($row = $statement->fetch())
-{
-   echo "<li>" . "<a href=" . 'browse-universities.php?university=' . $row['UniversityID'] . ">" . 
-                                $row['Name'] . "</a>" . "</li>" . "<br/>";
-   }
-    $data = null;
-    }
- catch (PDOException $e)
- {
-   echo "Error";
-  }
-}
-    
-
-
-function listAuthors($isbnNumber) 
-{
-
-global  $authorData;
-
-$result = $authorData->findBookDetailsByIsbn($isbnNumber);
- 
-
-  foreach($result as $row) 
-{
-  echo "<li>". $row['FirstName'] ." " .$row['LastName'] ."</li>";
-   }
-   
-}
 ?>
      
 <!DOCTYPE html>
@@ -112,7 +69,7 @@ $result = $authorData->findBookDetailsByIsbn($isbnNumber);
    <span>List of universities that have adopted the book.</span>
      </div>
      <div class="mdl-card__supporting-text">
-      <?php listUniversities(); ?>
+      <?php listUniversities($_GET["isbn"]); ?>
    </div>
    </div>
      </div>

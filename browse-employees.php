@@ -7,39 +7,6 @@ $dataGateway = new EmployeesGateway($connection);
 
 
 
- /*
-function outputEmployeeAddresses($data)
-{
-  try
-  {
-     global $dataGateway;
-     if(isset($_GET["employee"]))
-     {
-       $sql = "SELECT FirstName, LastName, Address, City, Region, Country, Postal, Email 
-       FROM Employees 
-       WHERE EmployeeID = :EmployeeID";
-       $statement= $data->prepare($sql);
-       $statement->bindValue(":EmployeeID", $_GET["employee"]);
-       $statement->execute();
-       $row = $statement->fetch();
-       if ($statement->rowCount() == 0) { echo "Did not understand request!... try clicking on an employee from list";  }
-      else {
-       echo "<h3>" . $row['FirstName'] . " " .  $row['LastName'] . "</h3>";
-       echo "<h6> Address: " . $row['Address'] . "</br>" ;
-       echo "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-       echo $row['City'] . ", " .  $row['Region'] . ", " .  $row['Country'] . " " .  $row['Postal'] . "</br>" ;
-       echo "Email: " . $row['Email'] . "</h6>";
- }
-     }
-     $data = null;
-      }
-  catch (PDOException $e)
-  {
-     echo "Did not understand request!... try clicking on an employee from list";
- }
-}
-
- */
 function outputEmployeeAddresses()
 {
   try
@@ -47,12 +14,10 @@ function outputEmployeeAddresses()
     
     global $dataGateway;
 
-  
+  if(isset($_GET["employee"])){
+     
          $result = $dataGateway->findAddressByID($_GET["employee"]);
-    
-  
-        
-       //  $result = $dataGateway->findById($employeeID);
+
          
         foreach($result as $row) {
       
@@ -65,6 +30,7 @@ function outputEmployeeAddresses()
        echo "Email: " . $row['Email'] . "</h6>";
  
      }
+  }
    
       }
         catch (PDOException $e)
@@ -76,62 +42,41 @@ function outputEmployeeAddresses()
 
   
 
-function outputEmployeeToDoList($employeeID)
+function outputEmployeeToDoList()
 {
- 
- global $dataGateway;
- 
- $result = $dataGateway->findById($employeeID);
+   global $dataGateway;
+
+  if(isset($_GET["employee"])){
+     
+         $result = $dataGateway->findEmployeeToDo($_GET["employee"]);
  
  foreach ($result as $row) {
-  //  if(isset($_GET["employee"]))
-    //{
-   /* $sql = "SELECT DATE_FORMAT(DateBy,'%Y-%M-%d') AS Date, Status, Priority, Description
-     FROM EmployeeToDo 
-     WHERE EmployeeID = :EmployeeID ORDER BY DateBy";
-     $statement= $data->prepare($sql);
-     $statement-> bindValue(":EmployeeID", $_GET["employee"]);
-     $statement->execute();
-     if ($statement->rowCount() == 0) { echo "Did not understand request!... try clicking on an employee from list";  }
-    else {
-     while ($row = $statement->fetch()) 
-     { */
+ 
      echo "<tr>";
-     echo "<td style='text-align: left'>" . $row['Date'] . "</td>";
+     echo "<td style='text-align: left'>" . $row['date'] . "</td>";
      echo "<td style='text-align: left'>" . $row['Status']   . "</td>";
      echo "<td style='text-align: left'>" . $row['Priority']   . "</td>";
      echo "<td style='text-align: left'>" . substr($row['Description'],0,40) . "..."  .  "</td>";
      echo "</tr>"; 
-   //  }
+ 
       }
     }
- 
-     // }
-    //catch (PDOException $e)
-   // {
-   // echo "Did not understand request!... try clicking on an employee from list";
-    //}
-    // }
+}
+   
      
                             
 function outputEmployeeMessages()
 {
- try 
- {
+    
+     global $dataGateway;
+
   if(isset($_GET["employee"])){
-    $sql = "SELECT FirstName, LastName, DATE_FORMAT(MessageDate,'%Y-%M-%d') as Date, Category, SUBSTRING(Content, 1, 40) as Content 
-    FROM Employees, EmployeeMessages
-    WHERE EmployeeMessages.EmployeeID = :EmployeeID AND EmployeeMessages.ContactID = Employees.EmployeeID
-    ORDER BY MessageDate";
-    $statement= $data->prepare($sql);
-    $statement-> bindValue(":EmployeeID", $_GET["employee"]);
-    $statement->execute();
-    if ($statement->rowCount() == 0) { echo "Did not understand request!... try clicking on an employee from list";  }
- else {
-    while ($row = $statement->fetch())
-    {
+        
+         $result = $dataGateway->findEmployeeMessages($_GET["employee"]);
+       
+ foreach ($result as $row) {
     echo "<tr>";
-    echo  "<td style='text-align: left'>" . $row['Date'] . "</td>";
+    echo  "<td style='text-align: left'>" . $row['date'] . "</td>";
     echo  "<td style='text-align: left'>" . $row['Category']   . "</td>";
     echo  "<td style='text-align: left'>" . $row['FirstName'] . " " . $row['LastName'] . "</td>";
     echo  "<td style='text-align: left'>" . substr($row['Content'],0,30) . "..."  . "</td>";
@@ -139,13 +84,9 @@ function outputEmployeeMessages()
     }
       }
   }
-     $data = null;
-     }
-   catch (PDOException $e)
-   {
-     echo "Did not understand request!... try clicking on an employee from list";
-   }
-     }
+
+     
+
 
  function outputEmployeeList()
 {
@@ -186,9 +127,9 @@ if(isset($_GET["employee"])) {
  }
  
 function printCityFilter(){
+    
     global $dataGateway;
-    $sql = "SELECT DISTINCT City FROM Employees ORDER by City";
-    $result = $dataGateway->runQuery($dataGateway->getDistinctCity());
+    $result = $dataGateway->findAllCities();
         foreach($result as $row) {
     
        echo "<option value=" . $row['City'] . ">" . $row['City'] . "</option>";
@@ -199,7 +140,7 @@ function printCityFilter(){
 function printEmployeesSubFilter(){
                
                  global $connection;
-                             try {
+                            try {
                             
                             $last ="";
                             $city ="";
@@ -207,11 +148,10 @@ function printEmployeesSubFilter(){
                             
                                 if($_GET["lastname"] != ""){
                                 $lasts = $_GET["lastname"];
-                               
-                                 $last = " AND LastName = :LastName 
-                                           AND LastName LIKE" . " " . $lasts . "%" ;
                                 
-                               }
+                                $last = " AND LastName = :LastName";
+                                 
+                                }
                          
                                 if($_GET["city"] != "all"){
                                 $city = " AND City = :City ";
@@ -219,7 +159,7 @@ function printEmployeesSubFilter(){
                                }
                                
                                
-                    $sql = "SELECT EmployeeID, FirstName, LastName, City 
+                             $sql = "SELECT EmployeeID, FirstName, LastName, City 
                             FROM Employees 
                             WHERE EmployeeID = EmployeeID" 
                             . $last . $city . " 
@@ -230,15 +170,16 @@ function printEmployeesSubFilter(){
                                $statement= $connection->prepare($sql);
                                 
                                if($_GET["lastname"] != ""){
-                               $statement-> bindValue(":LastName",  $_GET["lastname"]);
-                             
+                               //$statement-> bindValue(":LastName",  $_GET["lastname"]);
+                                 
+                              $statement->bindValue(':LastName', $_GET["lastname"]); 
                                }
                                
                                if($_GET["city"] != "all"){
                                $statement-> bindValue(":City", $_GET["city"]);    
-                              
+                         
                                }
-                                   
+                                      
                               $statement->execute();
 
                                  while ($row = $statement->fetch()) {
@@ -253,7 +194,7 @@ function printEmployeesSubFilter(){
                              }
                              
                                  catch (PDOException $e){
-                                    echo "error";
+                                    echo "Error";
                                  }
 }
 
@@ -325,7 +266,7 @@ function printEmployeesSubFilter(){
           <option value="all">All Cities </option>
 
             <?php  
-                             printCityFilter();
+                           printCityFilter();
                          ?> 
         </select>
         <label class="mdl-selectfield__label" for="city"></label>
@@ -352,7 +293,7 @@ function printEmployeesSubFilter(){
                     <ul class="demo-list-item mdl-list">
   
                          <?php
-                         
+                       
 
                           if(isset($_GET["lastname"]) || isset($_GET['city'])){
                               if($_GET["lastname"] == "" && $_GET['city'] == "all")  {
@@ -371,7 +312,7 @@ function printEmployeesSubFilter(){
                         }
                          
                          
-                         
+                      
                          
                          ?> 
                     </ul>

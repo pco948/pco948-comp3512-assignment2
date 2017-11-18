@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
-    return header("location:login.php");
+if (!isset($_SESSION['userid'])) {
+    return header("location:login.php?page=" . $_SERVER['PHP_SELF']);
 }
 ?>

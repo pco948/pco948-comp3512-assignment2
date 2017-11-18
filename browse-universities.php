@@ -1,6 +1,7 @@
 <?php
 include('includes/db-config.inc.php');
 include('universities-functions.inc.php');
+include('lib/UniversitiesGateway.class.php');
 ?>
 
 <!DOCTYPE html>
@@ -29,11 +30,9 @@ include('universities-functions.inc.php');
             mdl-layout--fixed-header">
             
     <?php
-include 'includes/header.inc.php';
-?>
-   <?php
-include 'includes/left-nav.inc.php';
-?>
+        include 'includes/header.inc.php';
+        include 'includes/left-nav.inc.php';
+    ?>
    
     
 <main class="mdl-layout__content mdl-color--grey-50">

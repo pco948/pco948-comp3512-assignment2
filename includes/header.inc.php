@@ -13,8 +13,11 @@
 <div class="mdl-tooltip" for="tt2">Messages</div>                     
                  
 <label id="tt3" class="material-icons mdl-badge mdl-badge--overlap" data-badge="4">notifications</label> 
- <div class="mdl-tooltip" for="tt3">Notifications</div>           
-                  
+ <div class="mdl-tooltip" for="tt3">Notifications</div>
+ 
+ <a id="tt4" href="../logout.php"><label id="tt4" class="material-icons">power_settings_new</label></a>
+        <div class="mdl-tooltip" for="tt4">Log Out</div>
+ 
         <label class="mdl-button mdl-js-button mdl-button--icon"
                for="fixed-header-drawer-exp">
           <i class="material-icons">search</i>
@@ -23,6 +26,8 @@
           <input class="mdl-textfield__input" type="text" name="sample"
                  id="fixed-header-drawer-exp">
         </div>
+        
+        
         
       </div>
     </div>

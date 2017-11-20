@@ -21,6 +21,23 @@ function printTop15Countries(){
           }
 }
 
+
+function printAdoptedBooks(){
+    global $dataGateway;
+    
+    $result = $dataGateway->findAdoptedBooks();
+ 
+      foreach($result as $row) {
+       echo  "<tr>";
+       echo  "<td style='text-align: left'>" . "<img src='book-images/thumb/" . $row['ISBN10'] . ".jpg'></td>";
+       echo  "<td style='text-align: left'>" . "<a href=" . 'single-book.php?isbn=' .   $row['ISBN10'] . ">". $row['Title'].  "</a></td>";
+       echo  "<td style='text-align: left'>" . $row['sum(AdoptionBooks.Quantity)'] . "</td>";
+       echo  "</tr>"; 
+      }
+}
+
+
+
 function printTotalNumVisits(){
    global $dataGateway;
     
@@ -50,25 +67,6 @@ function printTotalEmployeeMessages(){
     echo $result["count(MessageDate)"];
   
 }
-
-function printAdoptedBooks(){
-    global $dataGateway;
-    
-    $result = $dataGateway->findAdoptedBooks();
-
-      foreach($result as $row) {
-       echo "<tr>";
-       echo  "<td style='text-align: left'>" . "<img src='book-images/thumb/" . $row['ISBN10'] .".jpg'></td>";
-       echo  "<td style='text-align: left'>" . "<a href=" . 'single-book.php?isbn=' .   $row['ISBN10'] . ">".  $row['Title']  . "</a>" . "</td>";
-       echo  "<td style='text-align: left'>" . $row['CopyrightYear'] . "</td>";
-       echo  "<td style='text-align: left'>" . $row['SubcategoryName'] . "</td>";
-       echo  "<td style='text-align: left'>" . $row['Imprint']   . "</td>";
-       echo "</tr>"; 
-      }
-}
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -165,7 +163,7 @@ function printAdoptedBooks(){
 </div>
 
 <div class="mdl-grid">
-     <div class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
+     <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
  <div class="mdl-card__title">
    <h2 class="mdl-card__title-text">Top 15 Countries</h2>
     </div>
@@ -188,7 +186,8 @@ function printAdoptedBooks(){
   </tbody>
 </table>
 </div>
-<div class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
+
+<div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
  <div class="mdl-card__title">
    <h2 class="mdl-card__title-text">Top 10 Adopted Books</h2>
     </div>
@@ -200,35 +199,13 @@ function printAdoptedBooks(){
     <tr>
       <!-- class "mdl-data-table__cell--non-numeric", align values to left -->
       <th class="mdl-data-table__cell--non-numeric">Book</th>
-      <th>Title</th>
+      <th style='text-align: left'>Title</th>
       <th>Quantity</th>
     </tr>
   </thead>
   <tbody>
     
-    <!-- Row 1 -->
-    <tr>
-      <!-- class "mdl-data-table__cell--non-numeric", align values to left -->
-      <td class="mdl-data-table__cell--non-numeric">Keyboard(backlit)</td>
-      <td>10</td>
-      <td>$50</td>
-    </tr>
-    
-    <!-- Row 2 -->
-    <tr>
-      <!-- class "mdl-data-table__cell--non-numeric", align values to left -->
-      <td class="mdl-data-table__cell--non-numeric">Mouse(wireless)</td>
-      <td>22</td>
-      <td>$25</td>
-    </tr>
-    
-    <!-- Row 3 -->
-    <tr>
-      <!-- class "mdl-data-table__cell--non-numeric", align values to left -->
-      <td class="mdl-data-table__cell--non-numeric">LED Display(1080p)</td>
-      <td>56</td>
-      <td>$113</td>
-    </tr>
+        <?php printAdoptedBooks(); ?>
     
   </tbody>
 </table>

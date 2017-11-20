@@ -40,10 +40,11 @@ class AnalyticsGateway extends TableDataGateway {
      }
      
          
-     protected function getAdoptedBooks(){
-      return "SELECT ISB10, sum(AdoptionBooks.Quantity), Title
+      protected function getAdoptedBooks(){
+      return "SELECT ISBN10, sum(AdoptionBooks.Quantity), Title
               FROM Books 
               JOIN AdoptionBooks ON Books.BookID=AdoptionBooks.BookID
+              GROUP BY AdoptionBooks.BookID
               ORDER BY sum(AdoptionBooks.Quantity) 
               DESC Limit 10";
      }

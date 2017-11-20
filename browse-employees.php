@@ -191,8 +191,8 @@ function printEmployeesSubFilter(){
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+   
     
-    <script src="js/javascript.js"></script>
 </head>
 
 <body>
@@ -214,8 +214,7 @@ function printEmployeesSubFilter(){
             <div class="mdl-cell mdl-cell--12-col card-lesson mdl-card  mdl-shadow--2dp">
 
    
-   <button class="mdl-button mdl-button--raised mdl-button--colored" 
-   onclick="myFunction()">Click To Filter</button>
+   <button class="mdl-button mdl-button--raised mdl-button--colored" onclick="myFunction()">Click To Filter</button>
    
       
                     <div id="myDIV" class="mdl-cell mdl-cell--12-col mdl-color--deep-purple mdl-color-text--white">
@@ -309,5 +308,5 @@ function printEmployeesSubFilter(){
 </div>    <!-- / mdl-layout --> 
           
 </body>
-<script type="text/javascript" src="js/javascript.js"></script>
+ <script type="text/javascript" src="js/javascript.js"></script>
 </html>

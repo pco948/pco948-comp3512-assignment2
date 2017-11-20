@@ -1,0 +1,32 @@
+
+#searchbar{
+display:none;
+}
+
+#myDIV {
+     display:none;
+}
+
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .material-icons {
+  position: absolute;
+  padding: 0px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .material-icons  { left:  0px;}
+.right-addon .material-icons {}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input {  }
+
+#submitButton{
+    bottom: 1px;
+}

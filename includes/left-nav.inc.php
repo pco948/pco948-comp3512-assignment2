@@ -1,8 +1,11 @@
+  <? session_start(); ?>
   <div class="mdl-layout__drawer mdl-color--blue-grey-800 mdl-color-text--blue-grey-50">
        <div class="profile">
-           <img src="book-images/medium/profile.jpg" class="avatar">
-           <h4>Jamile Hijazi</h4>           
-           <span>jhija383@mtroyal.ca</span>
+           <img src="images/avatar_small.png" class="avatar">
+           
+           <!--Echoes session variables for the user.-->
+           <h3><?php echo $_SESSION['firstname'] . " " . $_SESSION['lastname']; ?></h3>           
+           <span><?php echo $_SESSION['email'];?></span>
        </div>
 
     <nav class="mdl-navigation mdl-color-text--blue-grey-300">

@@ -1,10 +1,5 @@
-<?php
-include './includes/booksFunctions.inc.php';
-
-
-
-?>
-     
+<?php include './includes/booksFunctions.inc.php'; ?>
+ 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,11 +11,11 @@ include './includes/booksFunctions.inc.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
     <link rel="stylesheet" href="css/styles.css">
-    
-    
+        <link rel="stylesheet" href="./css/enlargeImages.css">
+      <link rel="stylesheet" href="css/searchbar.css">
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    
+
 </head>
 <body>
     
@@ -70,14 +65,23 @@ include './includes/booksFunctions.inc.php';
      </div>
      <div class="mdl-card__supporting-text">
       <?php listUniversities($_GET["isbn"]); ?>
+      
    </div>
    </div>
      </div>
     </div>
+  <!-- The Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
   </div>
  </div>  
  </section>
 </main>    
 </div>    
 </body>
+ <script type="text/Javascript" src="./js/enlargeImage.js"></script>
+ <script type="text/javascript" src="js/javascript.js"></script>
 </html>

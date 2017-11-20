@@ -19,6 +19,10 @@ class EmployeesGateway extends TableDataGateway {
  return "EmployeeID";
  }
  
+ protected function getPrimaryKeyNameMessage(){
+  return "EmployeeMessages.EmployeeID";
+ }
+ 
   protected function getJoinedSelectStatement()
      {
       return "SELECT EmployeeID, FirstName, LastName, Address, City,
@@ -43,9 +47,16 @@ class EmployeesGateway extends TableDataGateway {
      
      protected function getEmployeeMessage(){
       return "SELECT FirstName, LastName, DATE_FORMAT(MessageDate,'%Y-%M-%d') as Date, Category, SUBSTRING(Content, 1, 40) as Content 
-                     FROM Employees 
-                     JOIN EmployeeMessages ON Employees.EmployeeID = EmployeeMessages.ContactID";
-             
+                     FROM Employees
+                     JOIN EmployeeMessages ON EmployeeMessages.ContactID = Employees.EmployeeID";
+                     
+     }
+     
+     protected function getEmployeeFilters(){
+      return "SELECT EmployeeID, FirstName, LastName, City 
+              FROM Employees 
+              WHERE EmployeeID = EmployeeID";
+              
      }
      
    
@@ -60,7 +71,6 @@ public function findEmployeeAddresses($sortFields=null)
  return $statement->fetchAll();
 }
 
- 
 public function findAddressByID($id) {
   $sql = $this->getEmployeeAddresses() . ' WHERE ' .
   $this->getPrimaryKeyName() . '=:id';
@@ -92,12 +102,48 @@ public function findEmployeeToDo($id){
 
 public function findEmployeeMessages($id){
   $sql = $this->getEmployeeMessage() . ' WHERE ' .
-  $this->getPrimaryKeyName() . '=:id';
+  $this->getPrimaryKeyNameMessage() . '=:id';
  
   $statement = DatabaseHelper::runQuery($this->connection, $sql,
   Array(':id' => $id));
   return $statement->fetchAll();
 }
+
+
+
+
+public function findEmployeeCity($lastName,$last, $city, $cityName){
+  $sql = $this->getEmployeeFilters()  . $last . $city . " 
+              ORDER by LastName";
+ 
+  $statement = DatabaseHelper::runQuery($this->connection, $sql,
+  Array(':Lastname' => $lastName, ':City' => $cityName));
+  return $statement->fetchAll();
+}
+
+
+public function findEmployeeNoCity($lastName,$last){
+  $sql = $this->getEmployeeFilters()  . $last  . " 
+              ORDER by LastName";
+ 
+ 
+  $statement = DatabaseHelper::runQuery($this->connection, $sql,
+  Array(':Lastname' => $lastName));
+  return $statement->fetchAll();
+}
+
+
+public function findEmployeeCityOnly($cityName,$city){
+  $sql = $this->getEmployeeFilters()  . $city  . " 
+              ORDER by LastName";
+ 
+ 
+  $statement = DatabaseHelper::runQuery($this->connection, $sql,
+  Array(':City' => $cityName));
+  return $statement->fetchAll();
+}
+
+
 
 
 

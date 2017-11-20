@@ -1,4 +1,6 @@
-  
+<?php
+include('login-checker.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +14,7 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
 
     <link rel="stylesheet" href="css/styles.css">
-    
+      <link rel="stylesheet" href="css/searchbar.css">
     
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
@@ -62,4 +64,5 @@
 </div>    <!-- / mdl-layout --> 
           
 </body>
+<script type="text/javascript" src="js/javascript.js"></script>
 </html>

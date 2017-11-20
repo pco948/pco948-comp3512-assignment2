@@ -1,3 +1,4 @@
+
 <?php
  require_once('includes/db-config.inc.php');
  $data = new BooksGateway($connection );
@@ -6,6 +7,8 @@
  $imprintsData = new ImprintsGateway($connection);
  $authorData = new AuthorsGateway($connection);
  $universityData = new UniversitiesGateway($connection);
+ 
+
 
 //Browse Books Page Functions
 function printAllBooks($data){
@@ -24,7 +27,7 @@ function printAllBooks($data){
                                
 function printBooksSubcategoryFilter($subcategoriesIDNumber){
  
- global   $subcategoriesData;
+ global $subcategoriesData;
 
 $result = $subcategoriesData->findByJoinStatements($subcategoriesIDNumber);
  
@@ -100,8 +103,8 @@ $result = $data->findBookDetailsByIsbn($isbnNumber);
   foreach($result as $row) 
 {
   echo "<div class='mdl-card__media mdl-cell mdl-cell--12-col-tablet'>";
-  echo  "<img class='article-image' src='book-images/medium/" . $row['ISBN10'] .".jpg' border='0' alt=''>";
-  echo "</div>";
+  echo  "<img id='myImg' class='article-image' src='book-images/medium/" . $row['ISBN10'] .".jpg' border='0' alt=''>";
+ echo "</div>";
   echo "<div class='mdl-cell mdl-cell--8-col'>";
   echo "<h2 class='mdl-card__title-text' > <strong>". $row['Title'] . "</strong></h2>";
   echo "<div class='mdl-card__supporting-text padding-top'>";

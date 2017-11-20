@@ -2,6 +2,7 @@
 include('includes/db-config.inc.php');
 include('universities-functions.inc.php');
 include('lib/UniversitiesGateway.class.php');
+include('login-checker.php');
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +16,7 @@ include('lib/UniversitiesGateway.class.php');
 	<link href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css" rel="stylesheet">
 	<link href='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.css' rel='stylesheet prefetch'>
 	<link href="css/styles.css" rel="stylesheet">
+	  <link rel="stylesheet" href="css/searchbar.css">
 	<script src="https://code.jquery.com/jquery-1.7.2.min.js">
 	</script>
 	<script src="https://code.getmdl.io/1.1.3/material.min.js">
@@ -86,4 +88,5 @@ printSpecificUniversityDetail();
     </main>    
 </div>    
 </body>
+<script type="text/javascript" src="js/javascript.js"></script>
 </html>

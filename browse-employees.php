@@ -1,5 +1,5 @@
 <?php
-   
+include('login-checker.php');   
 
 
 require_once('includes/db-config.inc.php');
@@ -39,9 +39,6 @@ function outputEmployeeAddresses()
  }
   }
 
-
-  
-
 function outputEmployeeToDoList()
 {
    global $dataGateway;
@@ -71,12 +68,12 @@ function outputEmployeeMessages()
      global $dataGateway;
 
   if(isset($_GET["employee"])){
-        
-         $result = $dataGateway->findEmployeeMessages($_GET["employee"]);
-       
+     
+           $result = $dataGateway->findEmployeeMessages($_GET["employee"]);
+            
  foreach ($result as $row) {
     echo "<tr>";
-    echo  "<td style='text-align: left'>" . $row['date'] . "</td>";
+    echo  "<td style='text-align: left'>" . $row['Date'] . "</td>";
     echo  "<td style='text-align: left'>" . $row['Category']   . "</td>";
     echo  "<td style='text-align: left'>" . $row['FirstName'] . " " . $row['LastName'] . "</td>";
     echo  "<td style='text-align: left'>" . substr($row['Content'],0,30) . "..."  . "</td>";
@@ -136,66 +133,40 @@ function printCityFilter(){
      }
 }
 
-
 function printEmployeesSubFilter(){
                
-                 global $connection;
-                            try {
+ global $dataGateway;
+   try {
                             
-                            $last ="";
-                            $city ="";
-                            $lasts ="";
+    $last ="";
+    $city ="";
+    $keyword = $_GET['lastname'];
                             
-                                if($_GET["lastname"] != ""){
-                                $lasts = $_GET["lastname"];
-                                
-                                $last = " AND LastName = :LastName";
-                                 
-                                }
-                         
-                                if($_GET["city"] != "all"){
-                                $city = " AND City = :City ";
-                                    
-                               }
-                               
-                               
-                             $sql = "SELECT EmployeeID, FirstName, LastName, City 
-                            FROM Employees 
-                            WHERE EmployeeID = EmployeeID" 
-                            . $last . $city . " 
-                            ORDER by LastName";
-                    
-                                
-                                
-                               $statement= $connection->prepare($sql);
-                                
-                               if($_GET["lastname"] != ""){
-                               //$statement-> bindValue(":LastName",  $_GET["lastname"]);
-                                 
-                              $statement->bindValue(':LastName', $_GET["lastname"]); 
-                               }
-                               
-                               if($_GET["city"] != "all"){
-                               $statement-> bindValue(":City", $_GET["city"]);    
-                         
-                               }
-                                      
-                              $statement->execute();
-
-                                 while ($row = $statement->fetch()) {
-                                     
-                                      echo "<li>" . "<a href=" . 'browse-employees.php?employee=' . $row['EmployeeID'] . ">" . 
-                                      $row['FirstName'] . " " . $row['LastName'] . "</a>" . "</li>" . "<br/>";
-                
-                                  
-                                 }
-                            
-                               
-                             }
-                             
-                                 catch (PDOException $e){
-                                    echo "Error";
-                                 }
+        if($_GET["lastname"] != ""){
+        $last = " AND LastName = :Lastname
+        OR LastName LIKE :Lastname";
+        }
+     if(isset($_GET["city"]) && $_GET["city"] != "all"){
+        $city = " AND City = :City ";
+        }
+      if(isset($_GET["city"]) && $_GET["city"] != "all" && $_GET["lastname"] != ""){
+     
+          $result = $dataGateway->findEmployeeCity($keyword . '%',$last,$city,$_GET["city"] ); 
+      }
+      elseif(isset($_GET["city"]) && $_GET["city"] != "all" && $_GET["lastname"] == ""){
+          $result = $dataGateway->findEmployeeCityOnly($_GET["city"], $city);
+      }
+      else {
+          $result = $dataGateway->findEmployeeNoCity($keyword . '%', $last); 
+      }
+         foreach($result as $row) {
+        echo "<li>" . "<a href=" . 'browse-employees.php?employee=' . $row['EmployeeID'] . ">" . 
+        $row['FirstName'] . " " . $row['LastName'] . "</a>" . "</li>" . "<br/>";
+        }
+        }
+        catch (PDOException $e){
+        echo "Incorrect query string";
+        }
 }
 
  
@@ -215,7 +186,7 @@ function printEmployeesSubFilter(){
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
 
     <link rel="stylesheet" href="css/styles.css">
-    
+    <link rel="stylesheet" href="css/searchbar.css">
     
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
@@ -240,22 +211,27 @@ function printEmployeesSubFilter(){
     
   
               <!-- mdl-cell + mdl-card -->
-   <button onclick="myFunction()">Filters</button>
+            <div class="mdl-cell mdl-cell--12-col card-lesson mdl-card  mdl-shadow--2dp">
+
+   
+   <button class="mdl-button mdl-button--raised mdl-button--colored" 
+   onclick="myFunction()">Click To Filter</button>
+   
+      
                     <div id="myDIV" class="mdl-cell mdl-cell--12-col mdl-color--deep-purple mdl-color-text--white">
                         
                          
-                       <div class="mdl-card__title">
+                       <div class="mdl-card__title ">
                          <form method="GET" action="browse-employees.php">  
       <h5 class="mdl-color-text--white">Filter by Last Name</h5>
       <div class="mdl-selectfield mdl-js-selectfield"> 
       <input name="lastname"  type="text">
-        <label class="mdl-selectfield__label" for="subcategory"></label>
+        <label class="mdl-selectfield__label" for="lastname"></label>
       </div>
 
-   
-</div> 
+  
+
                       
-                       <div class="mdl-card__title">
                       
        <h5 class="mdl-color-text--white">Filter by City</h5>
       
@@ -275,13 +251,12 @@ function printEmployeesSubFilter(){
   <i class="material-icons">search</i>
 
 </button> 
-  </form>
-</div> 
 
-</div>
-   
-              </div>
-              
+  </form>
+ </div> 
+ </div>
+     
+                   </div> </div>
             <div class="mdl-grid">
 
               <!-- mdl-cell + mdl-card -->
@@ -334,4 +309,5 @@ function printEmployeesSubFilter(){
 </div>    <!-- / mdl-layout --> 
           
 </body>
+<script type="text/javascript" src="js/javascript.js"></script>
 </html>

@@ -1,4 +1,8 @@
-<?php include './includes/booksFunctions.inc.php';?>
+<?php 
+include './includes/booksFunctions.inc.php';
+include('login-checker.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,10 +16,10 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
     <link rel='stylesheet prefetch' href='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.css'>
     <link rel="stylesheet" href="css/styles.css">
-    
-    <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
+      <link rel="stylesheet" href="css/searchbar.css">
+    <script src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    <script src='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.js'></script>e
+    <script src='https://cdn.rawgit.com/kybarg/mdl-selectfield/mdl-menu-implementation/mdl-selectfield.min.js'></script>
 </head>
 
 <body>
@@ -89,4 +93,5 @@
 </main>    
 </div>   
 </body>
+<script type="text/javascript" src="js/javascript.js"></script>
 </html>

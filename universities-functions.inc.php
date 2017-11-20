@@ -1,4 +1,6 @@
 <?php
+
+//Checks if there is a state filter applied and filter the universities list based on the filter.
 function printUniversityListChecker()
 {
     if (isset($_GET["states"])) {
@@ -12,6 +14,7 @@ function printUniversityListChecker()
     }
 }
 
+//Will print out specific details about a selected university.
 function printSpecificUniversityDetail()
 {
     try {
@@ -19,7 +22,7 @@ function printSpecificUniversityDetail()
             if (empty($_GET["university"])) {
                 echo "<p> No university found!... try clicking on a university from list </p>";
             } else {
-                include 'includes/university-details.inc.php';
+                printUniversityDetails();
             }
         } elseif (!isset($_GET[employee])) {
             echo "<p> Try clicking on a university from the list </p>";
